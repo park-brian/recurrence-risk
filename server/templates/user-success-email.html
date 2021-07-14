@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recurrence Risk Results</title>
+  </head>
+  <body>
+    Dear Recurrence Risk User,
+    <br />
+    <p>
+      The calculation you submitted on <%- timestamp %> using the following
+      parameters has been processed. Your results have been attached to this
+      message.
+    </p>
+    <ul>
+      <li>
+        <b>File:</b>
+        <%- individualDataFileName %>
+      </li>
+      <li>
+        <b>Strata:</b>
+        <%- strata %>
+      </li>
+      <li>
+        <b>Covariates:</b>
+        <%- covariates %>
+      </li>
+      <li>
+        <b>Time Variable:</b>
+        <%- timeVariable %>
+      </li>
+      <li>
+        <b>Event Variable:</b>
+        <%- eventVariable %>
+      </li>
+      <li>
+        <b>Distribution:</b>
+        <%- distribution %>
+      </li>
+      <li>
+        <b>Stage Variable:</b>
+        <%- stageVariable %>
+      </li>
+      <li>
+        <b>Distant Stage Value:</b>
+        <%- distantStageValue %>
+      </li>
+      <li>
+        <b>Adjustment Factor r:</b>
+        <%- adjustmentFactorR %>
+      </li>
+      <li>
+        <b>Years of Follow-up:</b>
+        <%- followUpYears %>
+      </li>
+    </ul>
+
+    - Recurrence Risk Team
+    <br />
+
+    <p>
+      Note: Please do not reply to this email. If you need assistance, please
+      contact
+      <a href="mailto:NCIRiskRecurrenceWebAdmin@mail.nih.gov">
+        NCIRiskRecurrenceWebAdmin@mail.nih.gov
+      </a>
+    </p>
+
+    <p>About Risk Recurrence Tool</p>
+
+    <p>
+      This web application has been developed to estimate the risk of
+      progressing to distant recurrence using disease-specific survival
+      typically provided by cancer registries. The disease-specific survival is
+      assessed via cause-specific survival using SEER*Stat software. The
+      cause-specific survival is assumed to follow a mixture-cure model and the
+      risk of recurrence is inferred from the survival among the non-cured
+      fraction. The cure fraction and parametric survival distribution among
+      those not cured are estimated using CanSurv software. The current version
+      can handle Weibull and log-logistic distributions for the non-cured
+      survival.
+    </p>
+
+    <h2 class="h5 mb-2">References</h2>
+    <ol>
+      <li>
+        Mariotto AB, Zou Z, Zhang F, Howlader N, Kurian AW, Etzioni R. Can We
+        Use Survival Data from Cancer Registries to Learn about Disease
+        Recurrence? The Case of Breast Cancer. Cancer Epidemiol Biomarkers Prev.
+        2018 Nov; 27(11):1332-1341.
+      </li>
+      <li>
+        Yu B, Tiwari RC, Cronin KA, McDonald C, Feuer EJ. CANSURV: A Windows
+        program for population-based cancer survival analysis. Comput.Methods
+        Programs Biomed. 2005;80(3):195-203.
+      </li>
+      <li>
+        Yu B, Tiwari RC, Cronin KA, Feuer EJ. Cure fraction estimation from the
+        mixture cure models for grouped survival data. Stat.Med.
+        2004;23(11):1733-47.
+      </li>
+      <li>
+        De Angelis R, Capocaccia R, Hakulinen T, Soderman B, Verdecchia A.
+        Mixture models for cancer survival analysis: application to
+        population-based data with covariates. Stat.Med. 1999;18(4):441-54.
+      </li>
+      <li>
+        Capocaccia R. Relationships between incidence and mortality in
+        non-reversible diseases. Stat Med. 1993;12(24):2395-415.
+      </li>
+      <li>
+        Li CS, Taylor JMG, Sy JP. Identifiability of cure models. Statistics
+        &amp; Probability Letters. 2001;54(4):389-95.
+      </li>
+      <li>
+        Howlader N, Ries LA, Mariotto AB, Reichman ME, Ruhl J, Cronin KA.
+        Improved estimates of cancer-specific survival rates from
+        population-based data. J Natl Cancer Inst. 2010;102(20):1584-98.
+      </li>
+    </ol>
+
+    <p>
+      If you did not request a calculation please ignore this email. Your
+      privacy is important to us. Please review our Privacy and Security Policy.
+    </p>
+
+    <div style="text-align: center">
+    
+        Division of Cancer Control & Population Sciences, a Division of National
+        Cancer Institutes
+
+        <br>
+        
+        BG 9609 MSC 9760 | 9609 Medical Center Drive | Bethesda, MD
+        20892-9760 | 1-800-4-CANCER
+    </div>
+
+  </body>
+</html>

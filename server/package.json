@@ -1,0 +1,30 @@
+{
+  "name": "recurrence-risk-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js --production",
+    "start:dev": "node app.js",
+    "start:queue": "node queue-worker.js",
+    "install:r": "Rscript install.R",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.906.0",
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "lodash": "^4.17.21",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.6.0",
+    "r-wrapper": "^1.1.2",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.5"
+  },
+  "devDependencies": {
+    "mocha": "^8.4.0"
+  }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recurrence Risk Calculation Failure</title>
+  </head>
+  <body>
+    Dear Recurrence Risk Administrator,
+    <br />
+    <p>
+      An error occured while processing calculation id:
+      <b>{{ id }}</b>
+    </p>
+
+    <p><b>Parameters</b></p>
+    <ul>
+      <li>
+        <strong>Email:</strong>
+        <%- email %>
+      </li>
+      <li>
+        <strong>File:</strong>
+        <%- individualDataFileName %>
+      </li>
+      <li>
+        <strong>Strata:</strong>
+        <%- strata %>
+      </li>
+      <li>
+        <strong>Covariates:</strong>
+        <%- covariates %>
+      </li>
+      <li>
+        <strong>Time Variable:</strong>
+        <%- timeVariable %>
+      </li>
+      <li>
+        <strong>Event Variable:</strong>
+        <%- eventVariable %>
+      </li>
+      <li>
+        <strong>Distribution:</strong>
+        <%- distribution %>
+      </li>
+      <li>
+        <strong>Stage Variable:</strong>
+        <%- stageVariable %>
+      </li>
+      <li>
+        <strong>Distant Stage Value:</strong>
+        <%- distantStageValue %>
+      </li>
+      <li>
+        <strong>Adjustment Factor r:</strong>
+        <%- adjustmentFactorR %>
+      </li>
+      <li>
+        <strong>Years of Follow-up:</strong>
+        <%- followUpYears %>
+      </li>
+    </ul>
+
+    <p><b>Exception Information</b></p>
+    <pre>{{ exception }}</pre>
+
+    <p>- Recurrence Risk Team</p>
+  </body>
+</html>

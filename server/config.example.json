@@ -1,0 +1,29 @@
+{
+  "server": {
+    "port": 8000,
+    "client": "../client/build"
+  },
+  "logs": {
+    "folder": "logs",
+    "level": "debug"
+  },
+  "aws": {
+    "region": "us-east-1"
+  },
+  "s3": {
+    "bucket": "example-bucket",
+    "inputKeyPrefix": "input/",
+    "outputKeyPrefix": "output/"
+  },
+  "sqs": {
+    "queueName": "example-queue.fifo",
+    "visibilityTimeout": 60,
+    "pollInteral": 60
+  },
+  "email": {
+    "admin": "admin@example.com",
+    "smtp": {
+      "hostname": "smtp-host"
+    }
+  }
+}
