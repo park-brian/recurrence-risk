@@ -1,0 +1,31 @@
+<div ngbDropdown>
+  <button
+    class="form-select text-start"
+    [id]="controlId"
+    (click)="handleClick($event)"
+    ngbDropdownToggle
+  >
+    <div class="text-truncate">
+      <ng-content></ng-content>
+    </div>
+  </button>
+  <div class="w-100" ngbDropdownMenu [attr.aria-labelledby]="controlId">
+    <form [formGroup]="form" class="px-3">
+      <div *ngIf="!options.length">No options available</div>
+      <div class="form-check" *ngFor="let option of options">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [id]="controlId + '_' + option.value"
+          [formControlName]="option.value"
+        />
+        <label
+          class="form-check-label"
+          [htmlFor]="controlId + '_' + option.value"
+        >
+          {{ option.label }}
+        </label>
+      </div>
+    </form>
+  </div>
+</div>

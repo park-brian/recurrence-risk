@@ -1,0 +1,298 @@
+<form
+  [formGroup]="form"
+  (submit)="handleSubmit($event)"
+  (reset)="handleReset($event)"
+>
+  <div class="mb-4">
+    <div class="d-flex align-items-baseline">
+      <label for="seerStatDictionaryFile" class="form-label required">
+        SEER*Stat Dictionary File (.dic)
+      </label>
+      <a
+        href="assets/files/groupdata_example_seer.dic"
+        target="_blank"
+        class="ms-auto small"
+        download
+      >
+        sample
+        <span class="visually-hidden">seer*stat dictionary file</span>
+      </a>
+    </div>
+
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.seerStatDictionaryFile?.touched &&
+          form.controls.seerStatDictionaryFile?.invalid
+      }"
+      type="file"
+      id="seerStatDictionaryFile"
+      name="seerStatDictionaryFile"
+      formControlName="seerStatDictionaryFile"
+      accept=".dic"
+      required
+    />
+
+    <div
+      *ngIf="
+        form.controls.seerStatDictionaryFile?.touched &&
+        form.controls.seerStatDictionaryFile?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.seerStatDictionaryFile?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <div class="d-flex align-items-baseline">
+      <label for="seerStatDataFile" class="form-label required">
+        SEER*Stat Data File (.txt)
+      </label>
+      <a
+        href="assets/files/groupdata_example_seer.txt"
+        target="_blank"
+        class="ms-auto small"
+        download
+      >
+        sample
+        <span class="visually-hidden">seer*stat data file</span>
+      </a>
+    </div>
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.seerStatDataFile?.touched &&
+          form.controls.seerStatDataFile?.invalid
+      }"
+      type="file"
+      name="seerStatDataFile"
+      id="seerStatDataFile"
+      formControlName="seerStatDataFile"
+      accept=".txt"
+      required
+    />
+    <div
+      *ngIf="
+        form.controls.seerStatDataFile?.touched &&
+        form.controls.seerStatDataFile?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.seerStatDataFile?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <div class="d-flex align-items-baseline">
+      <label for="canSurvDataFile" class="form-label required">
+        CanSurv Data File (.csv)
+      </label>
+      <a
+        href="assets/files/groupdata_example_cansurv.csv"
+        target="_blank"
+        class="ms-auto small"
+        download
+      >
+        sample
+        <span class="visually-hidden">cansurv data file</span>
+      </a>
+    </div>
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.canSurvDataFile?.touched &&
+          form.controls.canSurvDataFile?.invalid
+      }"
+      type="file"
+      name="canSurvDataFile"
+      id="canSurvDataFile"
+      formControlName="canSurvDataFile"
+      accept=".csv"
+      required
+    />
+    <div
+      *ngIf="
+        form.controls.canSurvDataFile?.touched &&
+        form.controls.canSurvDataFile?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.canSurvDataFile?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="stageVariable" class="form-label required">
+      Stage Variable
+    </label>
+    <select
+      class="form-select"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.stageVariable?.touched &&
+          form.controls.stageVariable?.invalid
+      }"
+      id="stageVariable"
+      name="stageVariable"
+      formControlName="stageVariable"
+      required
+    >
+      <option value="" hidden>No stage variable selected</option>
+      <ng-container *ngFor="let header of form.value.seerStatDictionary">
+        <option *ngIf="header.factors?.length > 0" [value]="header.name">
+          {{ header.name }}
+        </option>
+      </ng-container>
+    </select>
+
+    <div
+      *ngIf="
+        form.controls.stageVariable?.touched &&
+        form.controls.stageVariable?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.stageVariable?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="distantStageValue" class="form-label required">
+      Distant Stage Value
+    </label>
+    <select
+      class="form-select"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.distantStageValue?.touched &&
+          form.controls.distantStageValue?.invalid
+      }"
+      id="distantStageValue"
+      name="distantStageValue"
+      formControlName="distantStageValue"
+      required
+    >
+      <option value="" hidden>No distant stage value selected</option>
+      <option
+        *ngFor="
+          let option of getFactors(
+            form.value.seerStatDictionary,
+            form.value.stageVariable
+          )
+        "
+        [value]="option.value"
+      >
+        {{ option.value }} - {{ option.label }}
+      </option>
+    </select>
+
+    <div
+      *ngIf="
+        form.controls.distantStageValue?.touched &&
+        form.controls.distantStageValue?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.distantStageValue?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="adjustmentFactorR" class="form-label required">
+      Adjustment Factor r
+    </label>
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.adjustmentFactorR?.touched &&
+          form.controls.adjustmentFactorR?.invalid
+      }"
+      type="number"
+      id="adjustmentFactorR"
+      name="adjustmentFactorR"
+      formControlName="adjustmentFactorR"
+      step="0.1"
+      min="0.5"
+      max="2"
+      required
+    />
+    <div
+      *ngIf="
+        form.controls.adjustmentFactorR?.touched &&
+        form.controls.adjustmentFactorR?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.adjustmentFactorR?.errors?.required">
+        This field is required.
+      </div>
+      <div *ngIf="form.controls.adjustmentFactorR?.errors?.min">
+        Please enter a value equal to or greater than
+        {{ form.controls.adjustmentFactorR?.errors?.min?.min }}.
+      </div>
+      <div *ngIf="form.controls.adjustmentFactorR?.errors?.max">
+        Please enter a value equal to or less than
+        {{ form.controls.adjustmentFactorR?.errors?.max?.max }}.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="followUpYears" class="form-label required">
+      Years of Follow-up
+    </label>
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.followUpYears?.touched &&
+          form.controls.followUpYears?.invalid
+      }"
+      type="number"
+      id="followUpYears"
+      name="followUpYears"
+      formControlName="followUpYears"
+      min="1"
+      required
+    />
+    <div
+      *ngIf="
+        form.controls.followUpYears?.touched &&
+        form.controls.followUpYears?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.followUpYears?.errors?.required">
+        This field is required.
+      </div>
+      <div *ngIf="form.controls.followUpYears?.errors?.min">
+        Please enter a value equal to or greater than
+        {{ form.controls.followUpYears?.errors?.min?.min }}.
+      </div>
+      <div *ngIf="form.controls.followUpYears?.errors?.max">
+        Please enter a value equal to or less than
+        {{ form.controls.followUpYears?.errors?.max?.max }}.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-2">
+    <button type="submit" class="btn btn-primary me-2">Submit</button>
+    <button type="reset" class="btn btn-outline-danger">Reset</button>
+  </div>
+</form>

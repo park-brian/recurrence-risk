@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-md navbar-light shadow-sm py-0 flex-none-auto">
+  <div class="container">
+    <a class="navbar-brand h5 d-inline-block d-md-none" routerLink="/">
+      RecurRisk
+    </a>
+
+    <button
+      class="navbar-toggler border-0"
+      type="button"
+      aria-controls="navbar-links"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      (click)="collapse = !collapse"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      id="navbar-links"
+      class="navbar-collapse"
+      [ngClass]="{ collapse: collapse }"
+    >
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li *ngFor="let link of links" class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="link.target"
+            routerLinkActive="active"
+          >
+            {{ link.title }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

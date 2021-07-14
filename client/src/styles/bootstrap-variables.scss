@@ -1,0 +1,45 @@
+/** Colors */
+$blue: rgb(24, 83, 148);
+
+/** Headings */
+$headings-font-weight: 700;
+$headings-margin-bottom: 0;
+
+/** Buttons */
+$btn-font-weight: 500;
+
+/** Links */
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+/** Tables */
+$table-th-font-weight: 500;
+$table-group-separator-color: #ddd;
+$table-cell-padding-x: 1rem;
+$table-cell-padding-y: 0.75rem;
+
+/** Forms */
+$form-label-font-weight: 500;
+$form-text-color: #595959;
+
+/** Responsive Breakpoints */
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+  xxxl: 1600px,
+  xxxxl: 1920px,
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px,
+  xxxl: 1500px,
+  xxxxl: 1800px,
+);

@@ -1,0 +1,95 @@
+<div
+  class="d-flex flex-wrap mb-3 justify-content-between"
+  *ngIf="data.length > 0"
+>
+  <div class="col-auto">
+    <input
+      aria-label="search"
+      class="form-control"
+      placeholder="Search Filter"
+      [formControl]="searchControl"
+    />
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary" (click)="download()">Download</button>
+  </div>
+</div>
+
+<div class="table-responsive mb-3">
+  <table class="table text-nowrap">
+    <thead>
+      <tr>
+        <th
+          *ngFor="let header of headers"
+          sortable
+          [column]="header.key"
+          (sort)="onSort($event)"
+          tabindex="0"
+        >
+          {{ header.title }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let row of activeData
+            | slice
+              : (page - 1) * pageSizeControl.value
+              : page * pageSizeControl.value
+        "
+      >
+        <td *ngFor="let header of headers">
+          {{
+            (header.valueFormatter || defaultValueFormatter)(row[header.key])
+          }}
+        </td>
+      </tr>
+
+      <tr *ngIf="!activeData || activeData.length === 0">
+        <td [colSpan]="headers.length" class="text-center py-5">
+          {{ placeholder }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div
+  class="d-flex flex-wrap mb-3 justify-content-between"
+  *ngIf="data.length > 0"
+>
+  <div class="col-auto">
+    <div class="d-flex align-items-center">
+      <select
+        class="form-select me-2"
+        id="pageSize"
+        [formControl]="pageSizeControl"
+      >
+        <option *ngFor="let pageSize of pageSizeOptions" [value]="pageSize">
+          {{ pageSize }}
+        </option>
+      </select>
+      <label for="pageSize" class="fw-semibold text-nowrap">
+        Items Per Page
+      </label>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="d-flex align-items-center">
+      <span class="me-2 fw-semibold">
+        {{ (page - 1) * +pageSizeControl.value + 1 }} -
+        {{ math.min(page * +pageSizeControl.value, activeData.length) }}
+        of
+        {{ activeData.length }}
+      </span>
+      <ngb-pagination
+        [(page)]="page"
+        [pageSize]="pageSizeControl.value"
+        [collectionSize]="activeData.length"
+        [ellipses]="false"
+        [maxSize]="3"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

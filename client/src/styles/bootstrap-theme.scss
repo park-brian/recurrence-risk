@@ -1,0 +1,76 @@
+a,
+.fw-semibold {
+  font-weight: 500;
+}
+
+.vh-100 {
+  height: 100vh;
+}
+
+@mixin nav-link {
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-left: none;
+  border-right: none;
+  color: $primary;
+  text-decoration: none;
+  transition: all 0.1s;
+  background-color: transparent;
+
+  &:hover,
+  &:focus {
+    color: $body-color;
+    border-color: transparent;
+  }
+  &.active {
+    color: $body-color;
+    border-color: transparent;
+    border-bottom-color: $primary;
+  }
+}
+
+.navbar-light {
+  .navbar-toggler {
+    border: none;
+  }
+
+  .navbar-nav .nav-link {
+    @include nav-link;
+  }
+}
+
+.nav-tabs .nav-link {
+  @include nav-link;
+}
+
+.table {
+  font-variant-numeric: tabular-nums;
+}
+
+.pagination {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: flex;
+  &.required::after {
+    content: "*";
+    color: $danger;
+    margin-left: 0.2rem;
+  }
+}
+
+.loader {
+  z-index: 9999;
+  opacity: 0.7;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $light;
+  width: 100%;
+  height: 100%;
+}

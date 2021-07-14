@@ -1,0 +1,36 @@
+<div class="loader position-fixed vh-100" *ngIf="loading">
+  <div class="spinner-border text-primary" role="status"></div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="shadow mb-4 p-4">
+        <app-group-data-form
+          (submit)="handleSubmit($event)"
+          (reset)="handleReset()"
+        ></app-group-data-form>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="shadow mb-4">
+        <ul ngbNav [roles]="false" #nav="ngbNav" class="nav-tabs">
+          <li ngbNavItem>
+            <a ngbNavLink>Results</a>
+            <ng-template ngbNavContent>
+              <app-group-data-results [data]="results"></app-group-data-results>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Help</a>
+            <ng-template ngbNavContent>
+              <app-group-data-help></app-group-data-help>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="p-4"></div>
+      </div>
+    </div>
+  </div>
+</div>

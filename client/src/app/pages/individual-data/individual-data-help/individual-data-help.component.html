@@ -1,0 +1,213 @@
+<p>
+  This web application has been extended to estimate the risk of progressing to
+  distant recurrence using individual survival data. The cause-specific survival
+  or relative survival is assumed to follow a mixture-cure model and the risk of
+  recurrence is inferred from the survival among the non-cured fraction. The
+  cure fraction and parametric survival distribution among those not cured will
+  be estimated using R flexsurvcure package. The current version can handle
+  Weibull and log-logistic distributions for the non-cured survival.
+</p>
+
+<h2 class="h5 mb-2">
+  Input
+  <small class="fw-normal h6 ms-1">
+    <a
+      href="assets/files/recurrence_risk_individualdata.csv"
+      target="_blank"
+      download
+    >
+      (sample: recurrence_risk_individualdata.csv)
+    </a>
+  </small>
+</h2>
+
+<ul>
+  <li>
+    <strong>CSV Data File:</strong>
+    the case-listing unformatted CSV data file exported from SEER*Stat software
+    with modification of variables of interest or user-generated individual data
+    by other statistical software in the CSV format. Note that, users may not
+    directly use the original unformatted variables, but need to modify the
+    case-listing SEER*Stat data before uploading because:
+    <ol>
+      <li>
+        It may not contain the event variable for death due to cancer and the
+        dead events due to other causes should be recoded as censoring events
+      </li>
+      <li>
+        There may not be categorical but continuous variables for strata and
+        covariates
+      </li>
+      <li>
+        The stage/strata/covariates variables are categorical but with many
+        levels or with numerical unknown values, the user will need to recode it
+        to better categorize the group
+      </li>
+    </ol>
+  </li>
+  <li>
+    <strong>Strata:</strong>
+    the user-defined strata variables which should be categorical coded as
+    integers.
+  </li>
+  <li>
+    <strong>Covariates:</strong>
+    the user-defined covariates in the mixture cure survival model which should
+    be categorical coded as integers.
+  </li>
+  <li>
+    <strong>Time Variable:</strong>
+    the variable specified as follow-up time in the survival model.
+  </li>
+  <li>
+    <strong>Event Variable:</strong>
+    the status indicator, 0=alive, 1=dead (due to cancer). Note that, dead
+    events due to other causes should be defined as censoring events. For
+    example, when an unformatted case-listing SEER*Stat data is used, a patient
+    is dead due to cancer if Vitalstatusrecodestudycutoffus=dead and
+    End_Calc_Vital_Status_Adjusted=dead; and a patient is dead due to other
+    causes if Vitalstatusrecodestudycutoffus=dead and
+    End_Calc_Vital_Status_Adjusted=(untraced or alive).
+  </li>
+  <li>
+    <strong>Distribution:</strong>
+    the latency distribution for the cure model (non-cured survival). The
+    current version can handle Weibull and log-logistic distributions.
+  </li>
+  <li>
+    <strong>Stage Variable:</strong>
+    the stage variable defined in SEER*Stat data or recoded by the user, which
+    should be the same variable selected in Strata if it is defined as a
+    stratum. All variable names in the data set will be listed after uploading
+    the SEER*Stat files. If there are more than 1 stage variable, the user will
+    need to select the one which contains the distant stage.
+  </li>
+  <li>
+    <strong>Distant Stage Value:</strong>
+    the user will need to select the numeric value of distant stage from the
+    listed values of Stage Variable.
+  </li>
+  <li>
+    <strong>Adjustment Factor r:</strong>
+    the factor used to adjust the registry-based survival curves for sensitivity
+    analysis. The user may click the up and down arrows to change the value or
+    type in any value. The default value is 1.
+  </li>
+  <li>
+    <strong>Years of Follow-up:</strong>
+    the range of follow-up years in the output. The default number is 25. If the
+    maximum number of follow-up years (max.num.year) in the SEER*Stat data is
+    less than 25, then the default number will be updated to the max.num.year.
+  </li>
+</ul>
+
+<h2 class="h5 mb-2">Output</h2>
+<ul>
+  <li>
+    <strong>link:</strong>
+    the parametric survival distribution among those not cured specified in
+    CanSurv.
+  </li>
+  <li>
+    <strong>cure:</strong>
+    the cure fraction estimated from the mixture cure survival model.
+  </li>
+  <li>
+    <strong>lambda/k:</strong>
+    the estimated parameters of the survival distribution for those not cured.
+  </li>
+  <li>
+    <strong>theta:</strong>
+    the exponential hazard of the time from recurrence to cancer death.
+  </li>
+  <li>
+    <strong>surv_curemodel:</strong>
+    the survival estimated from the mixture cure survival model.
+  </li>
+  <li>
+    <strong>surv_notcure:</strong>
+    the estimated survival for the non-cured fraction.
+  </li>
+  <li>
+    <strong>median_surv_notcured:</strong>
+    the median survival time for the non-cured fraction.
+  </li>
+  <li>
+    <strong>s1_numerical:</strong>
+    the numerical estimated survival to recurrence (recurrence-free survival)
+    for the non-cured fraction.
+  </li>
+  <li>
+    <strong>G_numerical:</strong>
+    the numerical estimated survival to recurrence.
+  </li>
+  <li>
+    <strong>CI_numerical:</strong>
+    1-G_numerical, the numerical estimated cumulative incidence of recurrence
+    which is the probability of progressing to cancer recurrence.
+  </li>
+  <li>
+    <strong>s1_analytical:</strong>
+    the analytical estimated survival to recurrence (recurrence-free survival)
+    for the non-cured fraction.
+  </li>
+  <li>
+    <strong>G_analytical:</strong>
+    the analytical estimated survival to recurrence.
+  </li>
+  <li>
+    <strong>CI_analytical:</strong>
+    1- G_analytical, the analytical estimated cumulative incidence of
+    recurrence.
+  </li>
+  <li>
+    <strong>se_CI_analytical:</strong>
+    the standard error of CI_analytical.
+  </li>
+  <li>
+    <strong>obs_surv:</strong>
+    the observed survival from SEER*Stat.
+  </li>
+  <li>
+    <strong>obs_dist_surv:</strong>
+    the observed survival for distant stage from SEER*Stat.
+  </li>
+</ul>
+
+<h2 class="h5 mb-2">References</h2>
+<ol>
+  <li>
+    Mariotto AB, Zou Z, Zhang F, Howlader N, Kurian AW, Etzioni R. Can We Use
+    Survival Data from Cancer Registries to Learn about Disease Recurrence? The
+    Case of Breast Cancer. Cancer Epidemiol Biomarkers Prev. 2018 Nov;
+    27(11):1332-1341.
+  </li>
+  <li>
+    Yu B, Tiwari RC, Cronin KA, McDonald C, Feuer EJ. CANSURV: A Windows program
+    for population-based cancer survival analysis. Comput.Methods Programs
+    Biomed. 2005;80(3):195-203.
+  </li>
+  <li>
+    Yu B, Tiwari RC, Cronin KA, Feuer EJ. Cure fraction estimation from the
+    mixture cure models for grouped survival data. Stat.Med.
+    2004;23(11):1733-47.
+  </li>
+  <li>
+    De Angelis R, Capocaccia R, Hakulinen T, Soderman B, Verdecchia A. Mixture
+    models for cancer survival analysis: application to population-based data
+    with covariates. Stat.Med. 1999;18(4):441-54.
+  </li>
+  <li>
+    Capocaccia R. Relationships between incidence and mortality in
+    non-reversible diseases. Stat Med. 1993;12(24):2395-415.
+  </li>
+  <li>
+    Li CS, Taylor JMG, Sy JP. Identifiability of cure models. Statistics &amp;
+    Probability Letters. 2001;54(4):389-95.
+  </li>
+  <li>
+    Howlader N, Ries LA, Mariotto AB, Reichman ME, Ruhl J, Cronin KA. Improved
+    estimates of cancer-specific survival rates from population-based data. J
+    Natl Cancer Inst. 2010;102(20):1584-98.
+  </li>
+</ol>

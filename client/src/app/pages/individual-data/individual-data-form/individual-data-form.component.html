@@ -1,0 +1,428 @@
+<div class="loader position-fixed vh-100" *ngIf="loading">
+  <div class="spinner-border text-primary" role="status"></div>
+</div>
+
+<form
+  [formGroup]="form"
+  (submit)="handleSubmit($event)"
+  (reset)="handleReset($event)"
+>
+  <div class="mb-4">
+    <div class="d-flex align-items-baseline">
+      <label for="individualDataFile" class="form-label required">
+        Individual Data File (.csv)
+      </label>
+      <a
+        href="assets/files/recurrence_risk_individualdata.csv"
+        target="_blank"
+        class="ms-auto small"
+        download
+      >
+        sample
+      </a>
+    </div>
+
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.individualDataFile?.touched &&
+          form.controls.individualDataFile?.invalid
+      }"
+      type="file"
+      id="individualDataFile"
+      name="individualDataFile"
+      formControlName="individualDataFile"
+      accept=".csv"
+      required
+    />
+
+    <div
+      *ngIf="
+        form.controls.individualDataFile?.touched &&
+        form.controls.individualDataFile?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.individualDataFile?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="strata" class="form-label">Strata</label>
+
+    <app-multiselect
+      controlId="strata"
+      name="strata"
+      [options]="getOptions(form.value.individualDataHeaders, 'strata')"
+      formControlName="strata"
+    >
+      <ng-container [ngPlural]="form.value?.strata?.length">
+        <ng-template ngPluralCase="=0">No strata selected</ng-template>
+        <ng-template ngPluralCase="other">
+          {{ form.value?.strata?.join(", ") }}
+        </ng-template>
+      </ng-container>
+    </app-multiselect>
+
+    <div
+      *ngIf="form.controls.strata?.touched && form.controls.strata?.invalid"
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.strata?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="covariates" class="form-label">Covariates</label>
+
+    <app-multiselect
+      controlId="covariates"
+      name="covariates"
+      [options]="getOptions(form.value.individualDataHeaders, 'covariates')"
+      formControlName="covariates"
+    >
+      <ng-container [ngPlural]="form.value?.covariates?.length">
+        <ng-template ngPluralCase="=0">No covariates selected</ng-template>
+        <ng-template ngPluralCase="=1">1 covariate selected</ng-template>
+        <ng-template ngPluralCase="other">
+          {{ form.value?.covariates?.length }} covariates selected
+        </ng-template>
+      </ng-container>
+    </app-multiselect>
+
+    <div
+      *ngIf="
+        form.controls.covariates?.touched && form.controls.covariates?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.covariates?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="timeVariable" class="form-label required">Time Variable</label>
+    <select
+      class="form-select"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.timeVariable?.touched &&
+          form.controls.timeVariable?.invalid
+      }"
+      id="timeVariable"
+      name="timeVariable"
+      formControlName="timeVariable"
+      required
+    >
+      <option value="" hidden>No time variable selected</option>
+      <option
+        *ngFor="let header of form.value.individualDataHeaders"
+        [value]="header.name"
+        [disabled]="isDisabled(header.name, 'timeVariable')"
+      >
+        {{ header.name }}
+      </option>
+    </select>
+
+    <div
+      *ngIf="
+        form.controls.timeVariable?.touched &&
+        form.controls.timeVariable?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.timeVariable?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="eventVariable" class="form-label required">
+      Event Variable
+    </label>
+    <select
+      class="form-select"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.eventVariable?.touched &&
+          form.controls.eventVariable?.invalid
+      }"
+      id="eventVariable"
+      name="eventVariable"
+      formControlName="eventVariable"
+      required
+    >
+      <option value="" hidden>No event variable selected</option>
+      <option
+        *ngFor="let header of form.value.individualDataHeaders"
+        [value]="header.name"
+        [disabled]="isDisabled(header.name, 'eventVariable')"
+      >
+        {{ header.name }}
+      </option>
+    </select>
+
+    <div
+      *ngIf="
+        form.controls.eventVariable?.touched &&
+        form.controls.eventVariable?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.eventVariable?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="distribution" class="form-label required">Distribution</label>
+    <select
+      class="form-select"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.distribution?.touched &&
+          form.controls.distribution?.invalid
+      }"
+      id="distribution"
+      name="distribution"
+      formControlName="distribution"
+      required
+    >
+      <option value="" hidden>No distribution selected</option>
+      <option value="Log-logistic">Log-logistic</option>
+      <option value="Weibull">Weibull</option>
+    </select>
+
+    <div
+      *ngIf="
+        form.controls.distribution?.touched &&
+        form.controls.distribution?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.distribution?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="stageVariable" class="form-label required">
+      Stage Variable
+    </label>
+    <select
+      class="form-select"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.stageVariable?.touched &&
+          form.controls.stageVariable?.invalid
+      }"
+      id="stageVariable"
+      name="stageVariable"
+      formControlName="stageVariable"
+      required
+    >
+      <option value="" hidden>No stage variable selected</option>
+      <option
+        *ngFor="let header of form.value.individualDataHeaders"
+        [value]="header.name"
+      >
+        {{ header.name }}
+      </option>
+    </select>
+
+    <div
+      *ngIf="
+        form.controls.stageVariable?.touched &&
+        form.controls.stageVariable?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.stageVariable?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="distantStageValue" class="form-label required">
+      Distant Stage Value
+    </label>
+    <select
+      class="form-select"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.distantStageValue?.touched &&
+          form.controls.distantStageValue?.invalid
+      }"
+      id="distantStageValue"
+      name="distantStageValue"
+      formControlName="distantStageValue"
+      required
+    >
+      <option value="" hidden>No distant stage value selected</option>
+      <option
+        *ngFor="
+          let option of getFactors(
+            form.value.individualDataHeaders,
+            form.value.stageVariable
+          )
+        "
+        [value]="option.value"
+      >
+        {{ option.value }}
+      </option>
+    </select>
+
+    <div
+      *ngIf="
+        form.controls.distantStageValue?.touched &&
+        form.controls.distantStageValue?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.distantStageValue?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="adjustmentFactorR" class="form-label required">
+      Adjustment Factor r
+    </label>
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.adjustmentFactorR?.touched &&
+          form.controls.adjustmentFactorR?.invalid
+      }"
+      type="number"
+      id="adjustmentFactorR"
+      name="adjustmentFactorR"
+      formControlName="adjustmentFactorR"
+      step="0.1"
+      min="0.5"
+      max="2"
+      required
+    />
+    <div
+      *ngIf="
+        form.controls.adjustmentFactorR?.touched &&
+        form.controls.adjustmentFactorR?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.adjustmentFactorR?.errors?.required">
+        This field is required.
+      </div>
+      <div *ngIf="form.controls.adjustmentFactorR?.errors?.min">
+        Please enter a value equal to or greater than
+        {{ form.controls.adjustmentFactorR?.errors?.min?.min }}.
+      </div>
+      <div *ngIf="form.controls.adjustmentFactorR?.errors?.max">
+        Please enter a value equal to or less than
+        {{ form.controls.adjustmentFactorR?.errors?.max?.max }}.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="followUpYears" class="form-label required">
+      Years of Follow-up
+    </label>
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.followUpYears?.touched &&
+          form.controls.followUpYears?.invalid
+      }"
+      type="number"
+      id="followUpYears"
+      name="followUpYears"
+      formControlName="followUpYears"
+      min="1"
+      required
+    />
+    <div
+      *ngIf="
+        form.controls.followUpYears?.touched &&
+        form.controls.followUpYears?.invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.followUpYears?.errors?.required">
+        This field is required.
+      </div>
+      <div *ngIf="form.controls.followUpYears?.errors?.min">
+        Please enter a value equal to or greater than
+        {{ form.controls.followUpYears?.errors?.min?.min }}.
+      </div>
+      <div *ngIf="form.controls.followUpYears?.errors?.max">
+        Please enter a value equal to or less than
+        {{ form.controls.followUpYears?.errors?.max?.max }}.
+      </div>
+    </div>
+  </div>
+
+  <div class="form-check mb-4">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      id="queue"
+      formControlName="queue"
+    />
+    <label class="form-check-label" for="queue" aria-describedby="queueHelp">
+      Use Queue
+    </label>
+    <div id="queueHelp" class="form-text">
+      If any covariates or more than two strata are selected, your calculation
+      will be enqueued and results will be sent to the specified email address.
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label
+      for="email"
+      class="form-label"
+      [ngClass]="{ required: form.value?.queue }"
+    >
+      Email
+    </label>
+    <input
+      class="form-control"
+      [ngClass]="{
+        'is-invalid':
+          form.controls.email?.touched && form.controls.email?.invalid
+      }"
+      type="email"
+      id="email"
+      name="email"
+      formControlName="email"
+      [required]="form.value?.queue"
+    />
+    <div
+      *ngIf="form.controls.email?.touched && form.controls.email?.invalid"
+      class="invalid-feedback"
+    >
+      <div *ngIf="form.controls.email?.errors?.required">
+        This field is required.
+      </div>
+    </div>
+  </div>
+  <div class="mb-2">
+    <button type="submit" class="btn btn-primary me-2">Submit</button>
+    <button type="reset" class="btn btn-outline-danger">Reset</button>
+  </div>
+</form>

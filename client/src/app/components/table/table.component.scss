@@ -1,0 +1,11 @@
+th[sortable] {
+  cursor: pointer;
+  white-space: nowrap;
+
+  &.asc::after {
+    content: "\2191";
+  }
+  &.desc::after {
+    content: "\2193";
+  }
+}
