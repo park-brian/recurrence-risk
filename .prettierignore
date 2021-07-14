@@ -1,0 +1,5 @@
+api/
+ui/
+server/logs/
+server/data/
+client/build/
