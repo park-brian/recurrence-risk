@@ -1,5 +1,0 @@
- {
- "hooks": {
-    "pre-commit": "cd ui && npm test && cd ../api && npm test"
- }
-}
